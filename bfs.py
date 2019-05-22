@@ -23,9 +23,19 @@ def BFS(graph, s):
         step += 1
         print(step, [graph.attributes[v]['name'] for v in q])
         print(step, [graph.attributes[v]['d'] for v in q])
-        graph.draw('{}'.format(step))
+        graph.draw('{}'.format(step))        
+        v = q.popleft()        
+        
+        for w in graph.adj[v]:
+            if(graph.attributes[w]['d'] == float('inf')):
+                q.append(w)
+                graph.attributes[w]['d'] = step
+                graph.attributes[w]['color'] = 'gray'
+                graph.attributes[w]['pi'] = v
+        graph.attributes[v]['color'] = 'black'        
+    graph.draw('{}'.format(step))
+        
 
-        raise NotImplementedError('Реализуйте алгоритм здесь')
 
 
 def main():
@@ -44,7 +54,7 @@ def main():
     g.add_edge(3, 7)
     g.add_edge(5, 6)
     g.add_edge(6, 7)
-    BFS(g, 1)
+    BFS(g, 0)
 
 
 if __name__ == "__main__":
